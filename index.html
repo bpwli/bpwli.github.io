@@ -20,6 +20,17 @@
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
 
+    <!-- Begin Inspectlet Embed Code -->
+	<script type="text/javascript" id="inspectletjs">
+	window.__insp = window.__insp || [];
+	__insp.push(['wid', 364898950]);
+	(function() {
+	function ldinsp(){if(typeof window.__inspld != "undefined") return; window.__inspld = 1; var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); };
+	setTimeout(ldinsp, 500); document.readyState != "complete" ? (window.attachEvent ? window.attachEvent('onload', ldinsp) : window.addEventListener('load', ldinsp, false)) : ldinsp();
+	})();
+	</script>
+	<!-- End Inspectlet Embed Code -->
+
     <script src="assets/js/jquery.min.js"></script>
 	<script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
 
@@ -518,31 +529,48 @@
 	-->
 	<script>
 
-	$("#donateForm").submit(function(e) {
-		console.log(e);
-		e.preventDefault();
-
-		$.ajax({
-	  			type: "POST",
-				url: "https://script.google.com/macros/s/AKfycbzgCpvwAv24wcM0qaXr92CON6eqrlrXFbzdiHJep8N156Y4TlA/exec",
-				data: $("#donateForm").serialize(),
-				success: function(data) {
-					console.log(data);
-				},
-			});
-
+	function postEmailForm(next) {
 		$.ajax({
 			type: "POST",
 			url: "https://formspree.io/ross@kndr.org",
 			data: $("#donateForm").serialize(),
+			dataType: "json",
 			success: function(data) {
-				console.log(data);
+				next();
+			},
+			failure: function() {
+				next();
 			},
 		});
+	}
 
-		if ($("input[name=paymentMethod]:checked").attr("value") == "paypal") {
-			window.location = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=F4ZF4BTBLXZRC";
-		}
+	function postGoogleForm(next) {
+		$.ajax({
+  			type: "POST",
+			url: "https://script.google.com/macros/s/AKfycbzgCpvwAv24wcM0qaXr92CON6eqrlrXFbzdiHJep8N156Y4TlA/exec",
+			data: $("#donateForm").serialize(),
+			success: function(data) {
+				console.log(data);
+				next();
+			},
+		});
+	}
+
+	function redirectToPaypal() {
+		window.location = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=F4ZF4BTBLXZRC";
+	}
+
+	$("#donateForm").submit(function(e) {
+		e.preventDefault();
+
+		var i = 0;
+		postEmailForm(function() {
+			postGoogleForm(function() {
+				if ($("input[name=paymentMethod]:checked").attr("value") == "paypal") {
+					redirectToPaypal();
+				}
+			});
+		});
 	});
 	</script>
 
