@@ -263,6 +263,8 @@
 			<div class="container">
 
 <form id="donateForm" method="post" action="https://formspree.io/ross@kndr.org">
+<input type="text" name="_gotcha" style="display:none" />
+<input type="hidden" name="_next" value="/" />
 <div class="row">
 	<div class="col-lg-offset-3 col-lg-6">
 		<h3 class="centered">Your Contribution</h3>
@@ -306,7 +308,7 @@
 			</div>
 			<div class="radio">
 				<input type="radio" name="amountRadio" value="other">
-				<input type="text" class="form-control"  name="entry.1391054407" placeholder="Another Amount">
+				<input type="text" class="form-control"  name="amountOther" placeholder="Another Amount">
 			</div>
 		</div>
 
@@ -342,23 +344,23 @@
 
 		<div class="form-group col-sm-12">
 		    <label class="control-label">Address</label>
-		    <input type="text" class="form-control" id="inputEmail3" placeholder="Address">
+		    <input type="text" class="form-control" id="address" placeholder="Address">
 		</div>
 
 		<div class="form-group">
 		    <div class="col-sm-5">
 		      <label>City
-		      <input type="text" class="form-control" id="inputEmail3" placeholder="City" value="Ann Arbor">
+		      <input type="text" class="form-control" id="city" placeholder="City" value="Ann Arbor">
 		      </label>
 		    </div>
 		    <div class="col-sm-3">
 		      <label>State
-		      <input type="text" class="form-control" id="inputEmail3" placeholder="State" value="MI">
+		      <input type="text" class="form-control" id="state" placeholder="State" value="MI">
 		      </label>
 		    </div>
 		    <div class="col-sm-3">
 		      <label>Zip
-		      <input type="text" class="form-control" id="inputEmail3" placeholder="City" value="48104">
+		      <input type="text" class="form-control" id="zip" placeholder="City" value="48104">
 		      </label>
 		    </div>
 		</div>
@@ -366,7 +368,7 @@
 		<div class="form-group col-sm-12">
 		  <div class="checkbox">
 		    <label>
-		      <input type="checkbox"> I prefer my contribution remain anonymous
+		      <input type="checkbox" name="anonymous"> I prefer my contribution remain anonymous
 		    </label>
 		  </div>
 		</div>
@@ -377,13 +379,13 @@
 		<div class="form-group col-sm-12">
 		  <div class="checkbox">
 		    <label>
-		      <input type="checkbox"> My employer has a contributing matching program.
+		      <input type="checkbox" name="employerMatching"> My employer has a contributing matching program.
 		    </label>
 		  </div>
 		</div>
 		<div class="form-group col-sm-12">
 		    <label class="control-label">Employer</label>
-		    <input type="text" class="form-control" id="inputEmail3" placeholder="Employer Name">
+		    <input type="text" class="form-control" id="employerName" placeholder="Employer Name">
 		</div>
 		<div class="form-group col-sm-12">
 		<p>We can help you fill out your matching form. If you'd like help, please send it to us at 1217 Olivia Ave, Ann Arbor MI 48104.</p>
