@@ -19,6 +19,7 @@
 
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
 
     <!-- Begin Inspectlet Embed Code -->
 	<script type="text/javascript" id="inspectletjs">
@@ -435,8 +436,22 @@
 		</div>
 
 		<div class="centered">
-  			<button type="submit" class="btn btn-success btn-lg">Contribute</button>
+  			<button type="submit" class="btn btn-success btn-lg">
+  				<i id="busy" style="display: none;" class="fa fa-spin fa-spinner"></i>
+  				Contribute
+  			</button>
   		</div>
+
+  		<div id="error" style="display: none;margin-top:20px" class="alert alert-danger">
+	  		<strong>Sorry!</strong>
+	  		We are grateful for your contribution, but something went wrong.
+	  		Please contact us at info@burnsparklanguage.org to complete your contribution.
+  		</div>
+  		<div id="success" style="display: none;margin-top:20px" class="alert alert-success">
+	  		<strong>Thank You</strong>
+	  		We've received your pledge. Thank you for supporting world language and Burns Park. If you are mailing a check, please send it to <strong>BPWLI, PO Box 1616, Ann Arbor, MI 48106</strong>
+  		</div>
+
 
   		 <br>
   		<p>Burns Park World Language Initiative is a 501(c)(3) non-profit corporation, and <strong>all contributions are tax deductible</strong> to the extent allowed by law.</p>
@@ -539,6 +554,7 @@
 				next();
 			},
 			failure: function() {
+				$("#error").show();
 				next();
 			},
 		});
@@ -553,6 +569,10 @@
 				console.log(data);
 				next();
 			},
+			failure: function() {
+				$("#error").show();
+				next();
+			},
 		});
 	}
 
@@ -562,12 +582,14 @@
 
 	$("#donateForm").submit(function(e) {
 		e.preventDefault();
-
-		var i = 0;
+		$("#busy").show();
 		postEmailForm(function() {
 			postGoogleForm(function() {
+				$("#busy").hide();
 				if ($("input[name=paymentMethod]:checked").attr("value") == "paypal") {
 					redirectToPaypal();
+				} else {
+					$("#success").show();
 				}
 			});
 		});
