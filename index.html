@@ -579,7 +579,11 @@
 	}
 
 	function redirectToPaypal() {
-		window.location = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=F4ZF4BTBLXZRC";
+		var amount = $("input[name=amountRadio]:checked").attr('value');
+		if (amount == "other") {
+			amount = $("input[name=amountOther]").prop('value');
+		}
+		window.location = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=treasurer@bpfli.org&item_name=Burns+Park+World+Language+Initiative&item_number=Support+World+Languages+at+Burns+Park&currency_code=USD&amount=" + encodeURIComponent(amount);
 	}
 
 	$("#donateForm").submit(function(e) {
